@@ -54,6 +54,8 @@
             padding: 20px 0;
             background: transparent;
             margin-top: auto;
+            text-align: center;
+            width: 100%;
         }
 
         /* Add cursor styles for interactive elements */
@@ -382,6 +384,8 @@
             font-size: 14px;
             text-decoration: none;
             transition: color 0.3s ease;
+            padding: 5px 10px;
+            display: inline-block;
         }
 
         .footer-link:hover {
@@ -812,26 +816,40 @@
                 flex-direction: column;
                 gap: 10px;
                 padding: 15px 0;
+                justify-content: center;
+                align-items: center;
+            }
+            
+            .footer-link {
+                padding: 8px 15px;
+                font-size: 16px;  /* Larger touch target on mobile */
             }
         }
         
         /* Small phone screens */
         @media (max-width: 480px) {
             .container {
-                padding-top: 90px;
+                padding-top: 140px;
             }
             
             .logo {
                 width: 120px;
+                top: 15px;
+                left: 15px;
             }
             
             .nav-buttons {
-                top: 20px;
+                top: 15px;
+                right: 15px;
+                flex-direction: column;
+                align-items: flex-end;
+                gap: 5px;
             }
             
             .nav-button {
                 font-size: 14px;
-                padding: 4px 6px;
+                padding: 4px 8px;
+                margin-bottom: 2px;
             }
             
             .header-text {
