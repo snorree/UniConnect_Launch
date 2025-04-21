@@ -107,13 +107,15 @@
             background-color: #C41E3A;
             color: white;
             border: none;
-            border-radius: 4px;
-            padding: 10px 20px;
-            font-size: 14px;
-            margin-top: 15px;
+            border-radius: 12px;
+            padding: 16px 30px;
+            font-size: 18px;
+            margin-top: 25px;
             width: 100%;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
             display: none;
+            position: relative;
+            overflow: hidden;
         }
 
         @keyframes fadeIn {
@@ -215,11 +217,24 @@
 
         .registration-title {
             font-family: "Hedvig Letters Serif", serif;
-            color: #C41E3A;
+            color: #fff;
             font-size: 36px;
             margin-bottom: 40px;
             font-weight: normal;
             text-align: center;
+            padding: 16px 32px;
+            background-color: #C41E3A;
+            border-radius: 12px;
+            display: inline-block;
+            transition: all 0.3s ease;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(196, 30, 58, 0.2);
+            cursor: default;
+        }
+
+        .registration-title:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(196, 30, 58, 0.3);
         }
 
         .form-group {
@@ -248,19 +263,37 @@
             color: #666;
         }
 
-        .form-input {
+        .form-input, .form-textarea, .form-select {
             width: 100%;
-            padding: 8px;
-            font-size: 14px;
+            padding: 16px;
+            font-size: 18px;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 8px;
             background-color: #fff;
             box-sizing: border-box;
+            transition: all 0.3s ease;
         }
 
-        .form-input:focus {
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
             outline: none;
             border-color: #C41E3A;
+            box-shadow: 0 0 0 3px rgba(196, 30, 58, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-input::placeholder, .form-textarea::placeholder {
+            color: #ccc;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .form-input:focus::placeholder, .form-textarea:focus::placeholder {
+            color: #aaa;
+            transform: translateY(-5px);
+        }
+        
+        /* Form validation feedback */
+        .form-input:valid, .form-textarea:valid {
+            border-color: #4CAF50;
         }
 
         .checkbox-group {
@@ -283,30 +316,41 @@
             display: none;
         }
 
-        .form-textarea {
-            width: 100%;
-            padding: 8px;
-            font-size: 14px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            background-color: #fff;
-            box-sizing: border-box;
-            min-height: 80px;
-            resize: vertical;
-        }
-
-        .form-textarea:focus {
-            outline: none;
-            border-color: #C41E3A;
-        }
-
         .submit-button:hover {
             background-color: #a01830;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(196, 30, 58, 0.2);
+        }
+        
+        .submit-button:active {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 10px rgba(196, 30, 58, 0.3);
         }
 
         .submit-button.visible {
             display: block;
             animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        /* Progress indicator for form */
+        .form-progress {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0 40px;
+        }
+        
+        .progress-step {
+            width: 12px;
+            height: 12px;
+            background-color: #ddd;
+            border-radius: 50%;
+            margin: 0 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .progress-step.active {
+            background-color: #C41E3A;
+            transform: scale(1.2);
         }
 
         .hedvig-letters-serif {
@@ -345,11 +389,30 @@
             border: 2px solid #C41E3A;
             border-radius: 12px;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .radio-button-group:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background-color: rgba(196, 30, 58, 0.05);
+            transition: width 0.3s ease;
+            z-index: 0;
         }
 
         .radio-button-group:hover {
             background-color: rgba(196, 30, 58, 0.05);
             transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(196, 30, 58, 0.1);
+        }
+        
+        .radio-button-group:hover:before {
+            width: 100%;
         }
         
         .radio-button-group input[type="radio"] {
@@ -361,6 +424,13 @@
             margin: 0;
             cursor: pointer;
             position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        .radio-button-group input[type="radio"]:checked {
+            border-color: #C41E3A;
+            box-shadow: 0 0 0 2px rgba(196, 30, 58, 0.2);
         }
 
         .radio-button-group input[type="radio"]:checked::after {
@@ -373,6 +443,13 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            animation: pulse 0.5s 1;
+        }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.5; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
         }
 
         .radio-button-group label {
@@ -380,6 +457,8 @@
             color: #333;
             cursor: pointer;
             font-weight: 500;
+            position: relative;
+            z-index: 1;
         }
         
         .radio-button-group input[type="radio"]:checked + label {
@@ -407,6 +486,12 @@
             margin: 25px auto;
             max-width: 600px;
             width: 80%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .message-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(177, 19, 34, 0.1);
         }
 
         .message-content {
@@ -516,6 +601,73 @@
             animation: fadeIn 1s ease-in forwards;
             animation-delay: 0.6s;
         }
+
+        /* Get Started Button */
+        .cta-button {
+            display: inline-block;
+            background-color: #C41E3A;
+            color: white;
+            font-size: 20px;
+            font-family: "Hedvig Letters Serif", serif;
+            padding: 16px 32px;
+            border-radius: 50px;
+            margin: 30px auto;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(196, 30, 58, 0.2);
+        }
+        
+        .cta-button:hover {
+            background-color: #a01830;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(196, 30, 58, 0.3);
+        }
+        
+        .cta-button:active {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(196, 30, 58, 0.25);
+        }
+        
+        .cta-button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            transition: transform 0.5s, opacity 0.3s;
+        }
+        
+        .cta-button:hover::after {
+            transform: translate(-50%, -50%) scale(1.5);
+            opacity: 0;
+            animation: ripple 0.8s ease-out;
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(2);
+                opacity: 0;
+            }
+        }
+        
+        .cta-container {
+            text-align: center;
+            margin: 30px 0;
+        }
     </style>
 </head>
 <body>
@@ -566,15 +718,20 @@
                         <div class="message-content">
                             <img src="Icons/Money_icon.png" alt="Money Icon" class="chat-icon">
                             <div class="message-text">
-                                <h2 class="message-title hedvig-letters-serif">Get paid to help</h2>
-                                <p class="message-subtitle">University students have the chance of earning money through helping prospective students</p>
+                                <h2 class="message-title hedvig-letters-serif">Earn While You Empower</h2>
+                                <p class="message-subtitle">University students have the chance to earn through guiding prospective students</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="registration-card">
-                        <h2 class="registration-title hedvig-letters-serif">Register your interest below!</h2>
+                        <h2 class="registration-title hedvig-letters-serif">Register your interest!</h2>
                         <form action="https://formspree.io/f/{{FORMSPREE_ENDPOINT}}" method="POST" id="contactForm">
+                            <div class="form-progress">
+                                <div class="progress-step active" data-step="1"></div>
+                                <div class="progress-step" data-step="2"></div>
+                                <div class="progress-step" data-step="3"></div>
+                            </div>
                             <div class="student-type-container">
                                 <div class="radio-button-group">
                                     <input type="radio" id="prospectiveRadio" name="student_type" value="prospective">
@@ -883,6 +1040,17 @@
                 const universityFields = document.getElementById('universityFields');
                 const submitButton = document.querySelector('.submit-button');
                 
+                // Update progress indicator
+                document.querySelectorAll('.progress-step').forEach(step => {
+                    if (parseInt(step.getAttribute('data-step')) === 1) {
+                        step.classList.add('active');
+                    } else if (parseInt(step.getAttribute('data-step')) === 2) {
+                        step.classList.add('active');
+                    } else {
+                        step.classList.remove('active');
+                    }
+                });
+                
                 // First hide both forms
                 prospectiveFields.style.display = 'none';
                 universityFields.style.display = 'none';
@@ -902,6 +1070,25 @@
                         universityFields.classList.add('visible');
                         submitButton.classList.add('visible');
                     }, 10);
+                }
+            });
+        });
+
+        // Add form field validation feedback
+        document.querySelectorAll('.form-input, .form-textarea, .form-select').forEach(input => {
+            input.addEventListener('change', function() {
+                if (this.value.trim() !== '') {
+                    this.classList.add('filled');
+                    
+                    // When enough fields are filled, activate step 3
+                    let requiredFields = document.querySelectorAll('.form-input[required], .form-textarea[required], .form-select[required]');
+                    let filledFields = document.querySelectorAll('.form-input.filled[required], .form-textarea.filled[required], .form-select.filled[required]');
+                    
+                    if (filledFields.length > 0) {
+                        document.querySelector('.progress-step[data-step="3"]').classList.add('active');
+                    }
+                } else {
+                    this.classList.remove('filled');
                 }
             });
         });
