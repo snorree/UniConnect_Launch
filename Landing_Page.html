@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hedvig+Letters+Serif:opsz@12..24&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniConnect - Student Consultation Services</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #FFFBEE;
+            background: rgb(255,251,238);
+            background: linear-gradient(180deg, rgba(255,251,238,1) 57%, rgba(228,224,212,1) 100%);
+            cursor: default;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: rgb(255,251,238);
+            background: linear-gradient(180deg, rgba(255,251,238,1) 65%, rgba(255,251,238,0) 100%);
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 10px;
+            padding-top: 120px;
+            width: 100%;
+            flex: 1;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px 0;
+            background: transparent;
+            margin-top: auto;
+        }
+
+        /* Add cursor styles for interactive elements */
+        a, button, .form-select, .form-input, .form-textarea, input[type="checkbox"] {
+            cursor: pointer;
+        }
+
+        /* Custom cursor for text inputs */
+        .form-input:hover, .form-textarea:hover {
+            cursor: text;
+        }
+
+        /* Remove duplicate cursor definitions */
+        .form-select {
+            width: 100%;
+            padding: 16px;
+            font-size: 18px;
+            border: 1px solid #C41E3A;
+            border-radius: 8px;
+            background-color: #fff;
+            color: #666;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='14' height='8' viewBox='0 0 14 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23C41E3A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 40px;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+        }
+
+        .nav-button {
+            font-family: "Hedvig Letters Serif", serif;
+            background: none;
+            border: none;
+            color: #C41E3A;
+            font-size: 22px;
+            padding: 5px 12px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-button:hover {
+            color: #a01830;
+            transform: translateY(-2px);
+        }
+
+        .submit-button {
+            background-color: #C41E3A;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            font-size: 14px;
+            margin-top: 15px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .content-wrapper {
+            opacity: 0;
+            animation: fadeIn 1s ease-in forwards;
+            animation-delay: 0.5s;
+        }
+
+        .logo {
+            width: 200px;
+            height: auto;
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            z-index: 1001;
+        }
+
+        .nav-buttons {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            display: flex;
+            gap: 20px;
+            z-index: 1001;
+        }
+
+        .hero-card {
+            background: none;
+            border-radius: 0;
+            padding: 40px 20px 10px 20px;
+            text-align: center;
+            box-shadow: none;
+            margin-bottom: 10px;
+            max-width: 780px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .typing-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            margin: 0 auto;
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 1s ease-in forwards;
+        }
+
+        .header-text {
+            display: block;
+            font-size: 36px;
+            color: #333;
+            margin-bottom: 12px;
+            font-weight: normal;
+            line-height: 1.3;
+            text-align: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-title {
+            font-family: "Hedvig Letters Serif", serif;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 1;
+            text-align: center;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: #666;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .italic {
+            font-style: italic;
+        }
+
+        .registration-card {
+            background: none;
+            border-radius: 0;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: none;
+        }
+
+        .registration-title {
+            font-family: "Hedvig Letters Serif", serif;
+            color: #C41E3A;
+            font-size: 36px;
+            margin-bottom: 40px;
+            font-weight: normal;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: #C41E3A;
+        }
+
+        .form-select option {
+            color: #333;
+            padding: 16px;
+        }
+
+        .form-select option:first-child {
+            color: #666;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #fff;
+            box-sizing: border-box;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #C41E3A;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .prospective-fields {
+            display: none;
+        }
+
+        .university-fields {
+            display: none;
+        }
+
+        .form-textarea {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #fff;
+            box-sizing: border-box;
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .form-textarea:focus {
+            outline: none;
+            border-color: #C41E3A;
+        }
+
+        .submit-button:hover {
+            background-color: #a01830;
+        }
+
+        .submit-button.visible {
+            display: block;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .hedvig-letters-serif {
+            font-family: "Hedvig Letters Serif", serif;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        .footer-link {
+            font-family: "Hedvig Letters Serif", serif;
+            color: #666;
+            font-size: 14px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: #C41E3A;
+        }
+
+        /* Radio button styles */
+        .student-type-container {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-bottom: 40px;
+        }
+
+        .radio-button-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 15px 25px;
+            border: 2px solid #C41E3A;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .radio-button-group:hover {
+            background-color: rgba(196, 30, 58, 0.05);
+            transform: translateY(-3px);
+        }
+        
+        .radio-button-group input[type="radio"] {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #C41E3A;
+            border-radius: 50%;
+            margin: 0;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .radio-button-group input[type="radio"]:checked::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background-color: #C41E3A;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .radio-button-group label {
+            font-size: 20px;
+            color: #333;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .radio-button-group input[type="radio"]:checked + label {
+            color: #C41E3A;
+            font-weight: bold;
+        }
+
+        /* Form animation */
+        .prospective-fields, .university-fields {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease-out;
+        }
+
+        .prospective-fields.visible, .university-fields.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .message-box {
+            background-color: #FFFBEE;
+            border: 2px solid #B11322;
+            border-radius: 20px;
+            padding: 12px 20px;
+            margin: 25px auto;
+            max-width: 600px;
+            width: 80%;
+        }
+
+        .message-content {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .chat-icon {
+            width: 40px;
+            height: 40px;
+            margin-top: 4px;
+        }
+
+        .message-title {
+            color: #000;
+            font-size: 22px;
+            margin: 0 0 4px 0;
+            text-align: left;
+        }
+
+        .message-subtitle {
+            color: #666;
+            font-size: 15px;
+            margin: 0;
+            line-height: 1.3;
+            text-align: left;
+        }
+
+        /* Remove redundant logo styles */
+        .logo-slide img[src="School_Logos/logo18.png"],
+        .logo-slide img[src="School_Logos/logo32.png"] {
+            margin-right: 0;
+        }
+
+        .logo-slide img[src="School_Logos/logo33.png"] {
+            max-height: 120px;
+        }
+
+        .logo-slide img[src="School_Logos/logo18.png"] {
+            margin-right: 100px;
+        }
+
+        .logo-slide img[src="School_Logos/logo32.png"] {
+            margin-right: 100px;
+        }
+
+        /* Keep only the essential carousel styles */
+        .logo-carousel {
+            width: 100%;
+            overflow: hidden;
+            padding: 20px 0;
+            background: rgba(228,224,212,0);
+            margin-top: 10px;
+            position: relative;
+            opacity: 0;
+            animation: fadeIn 1s ease-in forwards;
+            animation-delay: 0.8s;
+        }
+
+        .logo-slide-track {
+            display: flex;
+            animation: scroll 240s linear infinite;
+            width: calc(250px * 138);
+        }
+
+        .logo-slide {
+            width: 250px;
+            padding: 0 50px;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo-slide img {
+            max-height: 100px;
+            min-height: 100px;
+            max-width: 140px;
+            width: auto;
+            object-fit: contain;
+            opacity: 1;
+            transition: all 0.3s ease;
+            display: block;
+        }
+
+        .logo-slide img:hover {
+            transform: scale(1.05);
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(calc(-250px * 69));
+            }
+        }
+
+        .carousel-title {
+            text-align: center;
+            color: #C41E3A;
+            font-size: 24px;
+            margin-bottom: 30px;
+            font-family: "Hedvig Letters Serif", serif;
+            opacity: 0;
+            animation: fadeIn 1s ease-in forwards;
+            animation-delay: 0.6s;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="header"></div>
+        <div class="container">
+            <a href="Landing_Page.html">
+                <img src="uniconnect-logo.svg" alt="UniConnect" class="logo">
+            </a>
+            <div class="nav-buttons">
+                <button class="nav-button" onclick="window.location.href='How_It_Works.html'">How it works</button>
+                <button class="nav-button">Contact</button>
+            </div>
+            
+            <div class="hero-card">
+                <div class="typing-container">
+                    <h1 class="header-text hedvig-letters-serif">Student-to-student university consultations - Get 
+                        guidance, give guidance</h1>
+                </div>
+                <div class="content-wrapper">
+                    <p class="hero-subtitle">
+                        Prospective Students, gain <span class="italic"><strong>unbiased</strong></span> insights and invaluable guidance
+                        applying to your dream university. Current university students, earn while sharing your authentic experiences
+                        through consultation calls.
+                    </p>
+
+                    <div class="message-box">
+                        <div class="message-content">
+                            <img src="Icons/Speech_Bubble.png" alt="Chat Icon" class="chat-icon">
+                            <div class="message-text">
+                                <h2 class="message-title hedvig-letters-serif">Real Conversations</h2>
+                                <p class="message-subtitle">Connect 1-on-1 with students who actually attend your dream university</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="message-box">
+                        <div class="message-content">
+                            <img src="Icons/Light_Bulb.png" alt="Light Bulb Icon" class="chat-icon">
+                            <div class="message-text">
+                                <h2 class="message-title hedvig-letters-serif">Unbiased Insights</h2>
+                                <p class="message-subtitle">Get honest feedback about campus life, courses, and culture</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="message-box">
+                        <div class="message-content">
+                            <img src="Icons/Money_icon.png" alt="Money Icon" class="chat-icon">
+                            <div class="message-text">
+                                <h2 class="message-title hedvig-letters-serif">Get paid to help</h2>
+                                <p class="message-subtitle">University students have the chance of earning money through helping prospective students</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="registration-card">
+                        <h2 class="registration-title hedvig-letters-serif">Register your interest below!</h2>
+                        <form action="https://formspree.io/f/{{FORMSPREE_ENDPOINT}}" method="POST" id="contactForm">
+                            <div class="student-type-container">
+                                <div class="radio-button-group">
+                                    <input type="radio" id="prospectiveRadio" name="student_type" value="prospective">
+                                    <label for="prospectiveRadio" class="hedvig-letters-serif">Prospective Student</label>
+                                </div>
+                                <div class="radio-button-group">
+                                    <input type="radio" id="universityRadio" name="student_type" value="university">
+                                    <label for="universityRadio" class="hedvig-letters-serif">University Student</label>
+                                </div>
+                            </div>
+
+                            <div id="prospectiveFields" class="prospective-fields">
+                                <div class="form-group">
+                                    <label for="prospectiveName" class="form-label hedvig-letters-serif">Your name</label>
+                                    <input type="text" id="prospectiveName" name="name" class="form-input hedvig-letters-serif" placeholder="Enter your full name">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="year" class="form-label hedvig-letters-serif">What year are you in?</label>
+                                    <select id="year" name="year" class="form-select hedvig-letters-serif">
+                                        <option value="" disabled selected>Select your year...</option>
+                                        <option value="year12" class="hedvig-letters-serif">Year 12</option>
+                                        <option value="year13" class="hedvig-letters-serif">Year 13</option>
+                                        <option value="gap" class="hedvig-letters-serif">Gap Year</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="email" class="form-label hedvig-letters-serif">Your email address</label>
+                                    <input type="email" id="email" name="email" class="form-input hedvig-letters-serif" placeholder="your.name@email.com">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="universities" class="form-label hedvig-letters-serif">Which universities are you interested in?</label>
+                                    <input type="text" id="universities" name="universities" class="form-input hedvig-letters-serif" placeholder="e.g., Oxford, Cambridge, LSE">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label hedvig-letters-serif">Which services are you interested in? (Select all that apply)</label>
+                                    <div class="checkbox-group">
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="generalConsultation" name="services[]" value="General Consultation">
+                                            <label for="generalConsultation" class="hedvig-letters-serif">General Consultation</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="interviewHelp" name="services[]" value="Interview Help">
+                                            <label for="interviewHelp" class="hedvig-letters-serif">Interview Help</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="personalStatement" name="services[]" value="Personal Statement Guidance">
+                                            <label for="personalStatement" class="hedvig-letters-serif">Personal Statement Guidance</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="entranceExam" name="services[]" value="Entrance Exam Tips">
+                                            <label for="entranceExam" class="hedvig-letters-serif">Entrance Exam Tips</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="lifeAtUni" name="services[]" value="Life at University">
+                                            <label for="lifeAtUni" class="hedvig-letters-serif">Life at University</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="academicsExp" name="services[]" value="Academics Experience">
+                                            <label for="academicsExp" class="hedvig-letters-serif">Academics Experience</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="additionalInterests" class="form-label hedvig-letters-serif">Anything else you're interested in?</label>
+                                    <textarea id="additionalInterests" name="additional_interests" class="form-textarea hedvig-letters-serif" placeholder="Tell us about any other interests or questions you have..."></textarea>
+                                </div>
+                            </div>
+
+                            <div id="universityFields" class="university-fields">
+                                <div class="form-group">
+                                    <label for="universityName" class="form-label hedvig-letters-serif">Your name</label>
+                                    <input type="text" id="universityName" name="name" class="form-input hedvig-letters-serif" placeholder="Enter your full name">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="uniName" class="form-label hedvig-letters-serif">Which university do you attend?</label>
+                                    <input type="text" id="uniName" name="university_name" class="form-input hedvig-letters-serif" placeholder="e.g., Oxford, UCL, Imperial, Durham ...">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="uniEmail" class="form-label hedvig-letters-serif">Your university email address</label>
+                                    <input type="email" id="uniEmail" name="university_email" class="form-input hedvig-letters-serif" placeholder="name@university.ac.uk/.edu">
+                                    <small style="color: #666; font-size: 12px; margin-top: 4px; display: block;" class="hedvig-letters-serif">Please use your university email address (e.g., ending in .ac.uk or .edu)</small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="course" class="form-label hedvig-letters-serif">What's your course?</label>
+                                    <input type="text" id="course" name="course" class="form-input hedvig-letters-serif" placeholder="e.g., Economics, Chemistry, Business, History">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="discussTopics" class="form-label hedvig-letters-serif">What aspects of university life would you be comfortable discussing?</label>
+                                    <textarea id="discussTopics" name="discussion_topics" class="form-textarea hedvig-letters-serif" placeholder="Tell us what you'd be happy to share with prospective students..."></textarea>
+                                </div>
+                            </div>
+
+                            <input type="hidden" name="_next" value="https://your-website.com/success.html">
+                            <button type="submit" class="submit-button hedvig-letters-serif">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="logo-carousel">
+            <h2 class="carousel-title">Our network includes students from these institutions!</h2>
+            <div class="logo-slide-track">
+                <!-- First set of logos -->
+                <div class="logo-slide"><img src="School_Logos/logo1.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo2.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo3.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo4.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo5.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo6.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo7.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo8.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo9.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo11.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo12.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo13.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo14.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo15.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo16.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo17.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo18.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo19.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo20.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo21.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo22.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo23.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo24.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo25.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo26.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo27.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo28.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo29.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo30.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo31.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo32.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo33.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo34.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo35.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo36.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo37.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo38.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo39.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo40.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo41.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo42.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo43.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo44.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo45.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo46.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo47.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo48.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo49.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo50.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo51.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo52.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo53.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo54.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo55.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo56.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo57.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo58.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo59.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo60.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo61.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo62.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo63.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo64.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo65.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo66.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo67.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo68.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo69.png" alt="University Logo"></div>
+                
+                <!-- Duplicate set for seamless scrolling -->
+                <div class="logo-slide"><img src="School_Logos/logo1.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo2.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo3.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo4.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo5.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo6.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo7.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo8.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo9.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo11.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo12.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo13.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo14.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo15.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo16.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo17.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo18.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo19.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo20.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo21.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo22.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo23.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo24.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo25.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo26.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo27.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo28.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo29.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo30.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo31.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo32.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo33.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo34.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo35.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo36.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo37.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo38.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo39.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo40.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo41.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo42.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo43.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo44.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo45.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo46.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo47.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo48.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo49.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo50.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo51.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo52.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo53.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo54.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo55.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo56.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo57.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo58.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo59.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo60.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo61.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo62.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo63.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo64.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo65.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo66.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo67.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo68.png" alt="University Logo"></div>
+                <div class="logo-slide"><img src="School_Logos/logo69.png" alt="University Logo"></div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <a href="privacy_policy.html" class="footer-link">Privacy Policy</a>
+            <a href="#" class="footer-link">Terms & Conditions</a>
+        </div>
+    </div>
+
+    <script>
+        // Load environment variables
+        function loadEnvVariables() {
+            fetch('/.env')
+                .then(response => response.text())
+                .then(data => {
+                    const envVars = parseEnvFile(data);
+                    const formAction = document.getElementById('contactForm').action;
+                    document.getElementById('contactForm').action = formAction.replace(
+                        '{{FORMSPREE_ENDPOINT}}', 
+                        envVars.FORMSPREE_ENDPOINT || 'mgvoynyz'
+                    );
+                })
+                .catch(error => {
+                    console.error('Error loading environment variables:', error);
+                    // Fallback to the original endpoint if .env loading fails
+                    const formAction = document.getElementById('contactForm').action;
+                    document.getElementById('contactForm').action = formAction.replace(
+                        '{{FORMSPREE_ENDPOINT}}', 
+                        'mgvoynyz'
+                    );
+                });
+        }
+
+        function parseEnvFile(text) {
+            const result = {};
+            const lines = text.split('\n');
+            for (const line of lines) {
+                // Skip comments and empty lines
+                if (line.trim().startsWith('#') || !line.trim()) continue;
+                
+                const [key, value] = line.split('=');
+                if (key && value) {
+                    result[key.trim()] = value.trim();
+                }
+            }
+            return result;
+        }
+
+        // Call this function when the page loads
+        document.addEventListener('DOMContentLoaded', loadEnvVariables);
+
+        document.querySelectorAll('input[name="student_type"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const prospectiveFields = document.getElementById('prospectiveFields');
+                const universityFields = document.getElementById('universityFields');
+                const submitButton = document.querySelector('.submit-button');
+                
+                // First hide both forms
+                prospectiveFields.style.display = 'none';
+                universityFields.style.display = 'none';
+                prospectiveFields.classList.remove('visible');
+                universityFields.classList.remove('visible');
+                
+                // Show and animate the selected form
+                if (this.value === 'prospective') {
+                    prospectiveFields.style.display = 'block';
+                    setTimeout(() => {
+                        prospectiveFields.classList.add('visible');
+                        submitButton.classList.add('visible');
+                    }, 10);
+                } else if (this.value === 'university') {
+                    universityFields.style.display = 'block';
+                    setTimeout(() => {
+                        universityFields.classList.add('visible');
+                        submitButton.classList.add('visible');
+                    }, 10);
+                }
+            });
+        });
+
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get the selected student type from radio buttons
+            const studentType = document.querySelector('input[name="student_type"]:checked');
+            
+            if (!studentType) {
+                alert('Please select whether you are a Prospective Student or University Student');
+                return;
+            }
+            
+            if (studentType.value === 'university') {
+                const uniEmail = document.getElementById('uniEmail').value.toLowerCase();
+                const uniName = document.getElementById('uniName').value;
+                const course = document.getElementById('course').value;
+                const discussTopics = document.getElementById('discussTopics').value;
+                const name = document.getElementById('universityName').value;
+                
+                // Check if email ends with .ac.uk or .edu
+                if (!uniEmail.endsWith('.ac.uk') && !uniEmail.endsWith('.edu')) {
+                    alert('Please use a valid university email address ending in .ac.uk or .edu');
+                    return;
+                }
+
+                if (!uniName || !course || !discussTopics || !name) {
+                    alert('Please fill in all required fields.');
+                    return;
+                }
+            } else if (studentType.value === 'prospective') {
+                const email = document.getElementById('email').value;
+                const year = document.getElementById('year').value;
+                const universities = document.getElementById('universities').value;
+                const name = document.getElementById('prospectiveName').value;
+
+                if (!email || !year || !universities || !name) {
+                    alert('Please fill in all required fields.');
+                    return;
+                }
+            }
+
+            // If validation passes, submit the form
+            fetch(this.action, {
+                method: 'POST',
+                body: new FormData(this),
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = 'success.html';
+                } else {
+                    throw new Error('Form submission failed');
+                }
+            })
+            .catch(error => {
+                alert('Oops! There was a problem submitting your form. Please try again.');
+            });
+        });
+    </script>
+</body>
+</html> 

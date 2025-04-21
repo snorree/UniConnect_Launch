@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hedvig+Letters+Serif:opsz@12..24&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How It Works - UniConnect</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #FFFBEE;
+            background: rgb(255,251,238);
+            background: linear-gradient(180deg, rgba(255,251,238,1) 57%, rgba(228,224,212,1) 100%);
+            cursor: default;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: rgb(255,251,238);
+            background: linear-gradient(180deg, rgba(255,251,238,1) 65%, rgba(255,251,238,0) 100%);
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 10px;
+            padding-top: 120px;
+            width: 100%;
+            flex: 1;
+        }
+
+        .logo {
+            width: 200px;
+            height: auto;
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            z-index: 1001;
+        }
+
+        .nav-buttons {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            display: flex;
+            gap: 20px;
+            z-index: 1001;
+        }
+
+        .nav-button {
+            font-family: "Hedvig Letters Serif", serif;
+            background: none;
+            border: none;
+            color: #C41E3A;
+            font-size: 22px;
+            padding: 5px 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .nav-button:hover {
+            color: #a01830;
+            transform: translateY(-2px);
+        }
+
+        .nav-button.active {
+            color: #C41E3A;
+            border-bottom: 2px solid #C41E3A;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px 0;
+            background: transparent;
+            margin-top: auto;
+        }
+
+        .footer-link {
+            font-family: "Hedvig Letters Serif", serif;
+            color: #666;
+            font-size: 14px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: #C41E3A;
+        }
+
+        .process-section {
+            margin: 40px 0;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .process-title {
+            font-family: "Hedvig Letters Serif", serif;
+            color: #333;
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .step-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 30px;
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: #FFFBEE;
+            border: 2px solid #B11322;
+            border-radius: 20px;
+            transition: transform 0.3s ease;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .step-container:hover {
+            transform: translateX(10px);
+        }
+
+        .step-number {
+            font-family: "Hedvig Letters Serif", serif;
+            font-size: 48px;
+            color: #C41E3A;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-title {
+            font-family: "Hedvig Letters Serif", serif;
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .step-description {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .cta-section {
+            text-align: center;
+            margin: 60px 0;
+            opacity: 0;
+            animation: fadeIn 0.8s ease forwards;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .cta-button {
+            font-family: "Hedvig Letters Serif", serif;
+            background-color: #C41E3A;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: #a01830;
+        }
+
+        .info-box {
+            background-color: #FFFBEE;
+            border: 2px solid #B11322;
+            border-radius: 20px;
+            padding: 12px 20px;
+            margin: 25px auto;
+            max-width: 600px;
+            width: 80%;
+        }
+
+        .info-box .content {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .info-icon {
+            width: 40px;
+            height: 40px;
+            margin-top: 4px;
+        }
+
+        .info-title {
+            color: #000;
+            font-size: 22px;
+            margin: 0 0 4px 0;
+            text-align: left;
+        }
+
+        .info-text {
+            color: #666;
+            font-size: 15px;
+            margin: 0;
+            line-height: 1.3;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="header"></div>
+        <div class="container">
+            <a href="Landing_Page.html">
+                <img src="uniconnect-logo.svg" alt="UniConnect" class="logo">
+            </a>
+            <div class="nav-buttons">
+                <button class="nav-button active">How it works</button>
+                <button class="nav-button" onclick="window.location.href='Landing_Page.html'">Register</button>
+                <button class="nav-button">Contact</button>
+            </div>
+
+            <div class="process-section">
+                <h1 class="process-title">How UniConnect Works</h1>
+
+                <div class="step-container">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h2 class="step-title">Register Your Interest</h2>
+                        <p class="step-description">
+                            Whether you're a prospective student seeking guidance or a university student willing to share your experience, start by registering on our platform. We'll collect some basic information to understand your needs or expertise.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="step-container">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h2 class="step-title">Get Matched</h2>
+                        <p class="step-description">
+                            We'll match prospective students with current university students based on their university preferences, course interests, and specific areas of guidance needed. This ensures meaningful and relevant connections.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="step-container">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h2 class="step-title">Schedule Your Consultation</h2>
+                        <p class="step-description">
+                            Once matched, you'll receive access to schedule a video consultation at a time that works for both parties. Sessions typically last 30-45 minutes, giving you plenty of time to discuss your questions and concerns.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="step-container">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h2 class="step-title">Have Your Consultation</h2>
+                        <p class="step-description">
+                            Connect with your matched student via our secure video platform. Get honest insights about university life, course experiences, and valuable tips for your application process. For university students, share your knowledge while earning.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="content">
+                    <img src="Icons/Light_Bulb.png" alt="Info Icon" class="info-icon">
+                    <div>
+                        <h3 class="info-title hedvig-letters-serif">For Prospective Students</h3>
+                        <p class="info-text">
+                            Get authentic insights from students who've been in your shoes. Discuss everything from application strategies and interview preparation to campus life and course experiences. Our consultations are designed to give you the real picture of university life.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="content">
+                    <img src="Icons/Money_icon.png" alt="Info Icon" class="info-icon">
+                    <div>
+                        <h3 class="info-title hedvig-letters-serif">For University Students</h3>
+                        <p class="info-text">
+                            Share your valuable experience while earning money. Help prospective students make informed decisions about their university journey. Your insights can make a real difference in someone's educational path.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <button class="cta-button" onclick="window.location.href='Landing_Page.html'">Register Now</button>
+            </div>
+        </div>
+
+        <div class="footer">
+            <a href="privacy_policy.html" class="footer-link">Privacy Policy</a>
+            <a href="#" class="footer-link">Terms & Conditions</a>
+        </div>
+    </div>
+</body>
+</html> 

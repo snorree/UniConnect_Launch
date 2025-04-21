@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Consultation Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .form-section {
+            display: none;
+            margin-top: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .checkbox-group {
+            margin-top: 5px;
+        }
+        .checkbox-group label {
+            font-weight: normal;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Student Consultation Form</h1>
+    
+    <div class="form-group">
+        <label>Are you a:</label>
+        <select id="studentType" onchange="showRelevantForm()">
+            <option value="">Please select</option>
+            <option value="prospective">Prospective Student</option>
+            <option value="current">Current University Student</option>
+        </select>
+    </div>
+
+    <!-- Prospective Student Form -->
+    <form id="prospectiveForm" class="form-section" action="https://formspree.io/f/{{FORMSPREE_ENDPOINT}}" method="POST">
+        <input type="hidden" name="form-type" value="prospective-student">
+        
+        <div class="form-group">
+            <label for="prosp-name">Full Name:</label>
+            <input type="text" id="prosp-name" name="name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="prosp-email">Email:</label>
+            <input type="email" id="prosp-email" name="email" required>
+        </div>
+
+        <div class="form-group">
+            <label for="school-year">Current School Year:</label>
+            <select id="school-year" name="school-year" required>
+                <option value="">Select your year</option>
+                <option value="year11">Year 11</option>
+                <option value="year12">Year 12</option>
+                <option value="year13">Year 13</option>
+                <option value="gap-year">Gap Year</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="universities">Universities Interested In:</label>
+            <textarea id="universities" name="universities" rows="3" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="course">Course Interested In:</label>
+            <input type="text" id="course" name="course" required>
+        </div>
+
+        <div class="form-group">
+            <label>Services Interested In:</label>
+            <div class="checkbox-group">
+                <input type="checkbox" id="academic" name="services[]" value="Academic Experience">
+                <label for="academic">Academic Experience</label><br>
+                <input type="checkbox" id="life" name="services[]" value="Life at University">
+                <label for="life">Life at University</label><br>
+                <input type="checkbox" id="exam" name="services[]" value="Entrance Exam Tips">
+                <label for="exam">Entrance Exam Tips</label><br>
+                <input type="checkbox" id="statement" name="services[]" value="Personal Statement Guidance">
+                <label for="statement">Personal Statement Guidance</label><br>
+                <input type="checkbox" id="interview" name="services[]" value="Interview Help">
+                <label for="interview">Interview Help</label><br>
+                <input type="checkbox" id="general" name="services[]" value="General Consultation">
+                <label for="general">General Consultation</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="additional">Anything else you're looking for?</label>
+            <textarea id="additional" name="additional" rows="3"></textarea>
+        </div>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- Current Student Form -->
+    <form id="currentForm" class="form-section" action="https://formspree.io/f/{{FORMSPREE_ENDPOINT}}" method="POST">
+        <input type="hidden" name="form-type" value="current-student">
+        
+        <div class="form-group">
+            <label for="current-name">Full Name:</label>
+            <input type="text" id="current-name" name="name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="current-email">University Email:</label>
+            <input type="email" id="current-email" name="email" pattern=".*\.ac\.uk$" title="Please use a UK university email address (ending in .ac.uk)" required>
+        </div>
+
+        <div class="form-group">
+            <label for="university">University:</label>
+            <input type="text" id="university" name="university" required>
+        </div>
+
+        <div class="form-group">
+            <label for="current-course">Current Course:</label>
+            <input type="text" id="current-course" name="course" required>
+        </div>
+
+        <div class="form-group">
+            <label for="interests">What would you be interested in talking about?</label>
+            <textarea id="interests" name="interests" rows="3" required></textarea>
+        </div>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        // Load environment variables
+        function loadEnvVariables() {
+            fetch('/.env')
+                .then(response => response.text())
+                .then(data => {
+                    const envVars = parseEnvFile(data);
+                    const forms = document.querySelectorAll('form');
+                    forms.forEach(form => {
+                        const formAction = form.action;
+                        form.action = formAction.replace(
+                            '{{FORMSPREE_ENDPOINT}}', 
+                            envVars.FORMSPREE_ENDPOINT || 'mgvoynyz'
+                        );
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading environment variables:', error);
+                    // Fallback to the original endpoint if .env loading fails
+                    const forms = document.querySelectorAll('form');
+                    forms.forEach(form => {
+                        const formAction = form.action;
+                        form.action = formAction.replace(
+                            '{{FORMSPREE_ENDPOINT}}', 
+                            'mgvoynyz'
+                        );
+                    });
+                });
+        }
+
+        function parseEnvFile(text) {
+            const result = {};
+            const lines = text.split('\n');
+            for (const line of lines) {
+                // Skip comments and empty lines
+                if (line.trim().startsWith('#') || !line.trim()) continue;
+                
+                const [key, value] = line.split('=');
+                if (key && value) {
+                    result[key.trim()] = value.trim();
+                }
+            }
+            return result;
+        }
+
+        // Call this function when the page loads
+        document.addEventListener('DOMContentLoaded', loadEnvVariables);
+
+        function showRelevantForm() {
+            const studentType = document.getElementById('studentType').value;
+            const prospectiveForm = document.getElementById('prospectiveForm');
+            const currentForm = document.getElementById('currentForm');
+
+            if (studentType === 'prospective') {
+                prospectiveForm.style.display = 'block';
+                currentForm.style.display = 'none';
+            } else if (studentType === 'current') {
+                prospectiveForm.style.display = 'none';
+                currentForm.style.display = 'block';
+            } else {
+                prospectiveForm.style.display = 'none';
+                currentForm.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
