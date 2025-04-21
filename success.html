@@ -62,6 +62,27 @@
             width: 150px;
             margin-bottom: 40px;
         }
+        
+        .footer {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px 0;
+            margin-top: 40px;
+            width: 100%;
+        }
+
+        .footer-link {
+            font-family: "Hedvig Letters Serif", serif;
+            color: #666;
+            font-size: 14px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: #C41E3A;
+        }
     </style>
 </head>
 <body>
@@ -70,6 +91,11 @@
         <h1 class="success-title">Thank You!</h1>
         <p class="success-message">Your submission has been received. We'll be in touch with you soon!</p>
         <a href="Landing_Page.html" class="back-button">Return to Home</a>
+        
+        <div class="footer">
+            <a href="privacy_policy.html" class="footer-link">Privacy Policy</a>
+            <a href="#" class="footer-link">Terms & Conditions</a>
+        </div>
     </div>
 </body>
 </html> 
