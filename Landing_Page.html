@@ -5,7 +5,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Hedvig+Letters+Serif:opsz@12..24&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>UniConnect - Student Consultation Services</title>
     <style>
         body {
@@ -85,6 +85,12 @@
         .checkbox-item input[type="checkbox"] {
             width: 16px;
             height: 16px;
+            accent-color: #C41E3A;
+            border: 1px solid #C41E3A;
+        }
+        
+        .checkbox-item:hover input[type="checkbox"] {
+            box-shadow: 0 0 0 2px rgba(196, 30, 58, 0.2);
         }
 
         .nav-button {
@@ -267,7 +273,7 @@
             width: 100%;
             padding: 16px;
             font-size: 18px;
-            border: 1px solid #ddd;
+            border: 1px solid #C41E3A;
             border-radius: 8px;
             background-color: #fff;
             box-sizing: border-box;
@@ -293,7 +299,12 @@
         
         /* Form validation feedback */
         .form-input:valid, .form-textarea:valid {
-            border-color: #4CAF50;
+            border-color: #C41E3A;
+        }
+        
+        .form-input.filled, .form-textarea.filled, .form-select.filled {
+            border-color: #C41E3A;
+            box-shadow: 0 0 0 1px rgba(196, 30, 58, 0.2);
         }
 
         .checkbox-group {
@@ -673,6 +684,240 @@
             text-align: center;
             margin: 30px 0;
         }
+
+        /* Contact section */
+        .contact-section {
+            text-align: center;
+            padding: 40px 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .contact-text {
+            font-size: 18px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .contact-email {
+            color: #C41E3A;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-email:hover {
+            color: #a01830;
+            text-decoration: underline;
+        }
+        
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 5px;
+                padding-top: 100px;
+            }
+            
+            .logo {
+                width: 150px;
+                top: 20px;
+                left: 20px;
+            }
+            
+            .nav-buttons {
+                top: 25px;
+                right: 20px;
+                gap: 10px;
+            }
+            
+            .nav-button {
+                font-size: 16px;
+                padding: 5px 8px;
+            }
+            
+            .header-text {
+                font-size: 26px;
+                padding: 0 10px;
+            }
+            
+            .hero-subtitle {
+                font-size: 16px;
+                padding: 0 15px;
+            }
+            
+            .message-box {
+                width: 90%;
+                padding: 10px 15px;
+                margin: 15px auto;
+            }
+            
+            .registration-title {
+                font-size: 24px;
+                padding: 12px 20px;
+            }
+            
+            .student-type-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .radio-button-group {
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+            
+            .form-group {
+                padding: 0 10px;
+            }
+            
+            .form-label {
+                font-size: 16px;
+            }
+            
+            .form-input, .form-textarea, .form-select {
+                font-size: 16px;
+                padding: 12px;
+            }
+            
+            .logo-carousel {
+                margin-top: 30px;
+            }
+            
+            .logo-slide {
+                padding: 0 30px;
+            }
+            
+            .logo-slide img {
+                max-height: 80px;
+                min-height: 80px;
+                max-width: 120px;
+            }
+            
+            .carousel-title {
+                font-size: 20px;
+                padding: 0 15px;
+            }
+            
+            .contact-section {
+                padding: 30px 15px;
+            }
+            
+            .contact-text {
+                font-size: 16px;
+            }
+            
+            .footer {
+                flex-direction: column;
+                gap: 10px;
+                padding: 15px 0;
+            }
+        }
+        
+        /* Small phone screens */
+        @media (max-width: 480px) {
+            .container {
+                padding-top: 90px;
+            }
+            
+            .logo {
+                width: 120px;
+            }
+            
+            .nav-buttons {
+                top: 20px;
+            }
+            
+            .nav-button {
+                font-size: 14px;
+                padding: 4px 6px;
+            }
+            
+            .header-text {
+                font-size: 22px;
+            }
+            
+            .message-title {
+                font-size: 18px;
+            }
+            
+            .message-subtitle {
+                font-size: 14px;
+            }
+            
+            .chat-icon {
+                width: 30px;
+                height: 30px;
+            }
+            
+            .registration-title {
+                font-size: 20px;
+                padding: 10px 16px;
+            }
+            
+            .form-progress {
+                margin: 30px auto 40px;
+            }
+            
+            .message-content {
+                gap: 10px;
+            }
+        }
+        
+        /* Improve touch targets */
+        @media (pointer: coarse) {
+            .nav-button,
+            .radio-button-group,
+            .checkbox-item,
+            .submit-button {
+                min-height: 44px; /* Minimum touch target size */
+            }
+            
+            .checkbox-item {
+                padding: 8px 0;
+            }
+            
+            .checkbox-item input[type="checkbox"] {
+                width: 22px;
+                height: 22px;
+            }
+            
+            .form-input, 
+            .form-textarea, 
+            .form-select {
+                padding: 14px;
+            }
+        }
+        
+        /* Landscape orientation for mobile devices */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .container {
+                padding-top: 80px;
+            }
+            
+            .header {
+                height: 70px;
+            }
+            
+            .logo {
+                width: 120px;
+                top: 10px;
+            }
+            
+            .nav-buttons {
+                top: 15px;
+            }
+            
+            .student-type-container {
+                flex-direction: row;
+                margin-bottom: 20px;
+            }
+            
+            .form-progress {
+                margin: 20px auto 30px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -684,7 +929,7 @@
             </a>
             <div class="nav-buttons">
                 <button class="nav-button" onclick="window.location.href='How_It_Works.html'">How it works</button>
-                <button class="nav-button">Contact</button>
+                <button class="nav-button" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">Contact</button>
             </div>
             
             <div class="hero-card">
@@ -992,6 +1237,14 @@
             </div>
         </div>
 
+        <div class="contact-section" id="contact">
+            <h2 class="registration-title hedvig-letters-serif">Contact Us</h2>
+            <p class="contact-text hedvig-letters-serif">
+                Have questions or want to learn more about UniConnect? We'd love to hear from you! 
+                Please reach out to us at <a href="mailto:hello@uniconnect.global" class="contact-email hedvig-letters-serif">hello@uniconnect.global</a>
+            </p>
+        </div>
+
         <div class="footer">
             <a href="privacy_policy.html" class="footer-link">Privacy Policy</a>
             <a href="#" class="footer-link">Terms & Conditions</a>
@@ -1056,6 +1309,11 @@
                 const progressBar = document.querySelector('.progress-bar');
                 progressBar.style.width = '50%';
                 
+                // Clear any previous filled classes
+                document.querySelectorAll('.form-input, .form-textarea, .form-select').forEach(input => {
+                    input.classList.remove('filled');
+                });
+                
                 // First hide both forms
                 prospectiveFields.style.display = 'none';
                 universityFields.style.display = 'none';
@@ -1081,35 +1339,50 @@
 
         // Add form field validation feedback
         document.querySelectorAll('.form-input, .form-textarea, .form-select').forEach(input => {
-            input.addEventListener('change', function() {
+            // Check initial state
+            if (input.value.trim() !== '') {
+                input.classList.add('filled');
+            }
+            
+            // Add event listeners
+            input.addEventListener('change', updateProgress);
+            input.addEventListener('input', function() {
                 if (this.value.trim() !== '') {
                     this.classList.add('filled');
-                    
-                    // Count filled fields
-                    let fieldsToCheck;
-                    let studentType = document.querySelector('input[name="student_type"]:checked').value;
-                    
-                    if (studentType === 'prospective') {
-                        fieldsToCheck = document.querySelectorAll('#prospectiveFields .form-input, #prospectiveFields .form-select');
-                    } else {
-                        fieldsToCheck = document.querySelectorAll('#universityFields .form-input, #universityFields .form-textarea');
-                    }
-                    
-                    let filledCount = 0;
-                    fieldsToCheck.forEach(field => {
-                        if (field.value.trim() !== '') {
-                            filledCount++;
-                        }
-                    });
-                    
-                    // Update progress based on completion percentage
-                    let progressPercentage = Math.min(100, 50 + (filledCount / fieldsToCheck.length) * 50);
-                    document.querySelector('.progress-bar').style.width = progressPercentage + '%';
                 } else {
                     this.classList.remove('filled');
                 }
             });
         });
+        
+        function updateProgress() {
+            // Only proceed if a student type is selected
+            const studentType = document.querySelector('input[name="student_type"]:checked');
+            if (!studentType) return;
+            
+            // Count filled fields
+            let fieldsToCheck;
+            
+            if (studentType.value === 'prospective') {
+                fieldsToCheck = document.querySelectorAll('#prospectiveFields .form-input, #prospectiveFields .form-select');
+            } else {
+                fieldsToCheck = document.querySelectorAll('#universityFields .form-input, #universityFields .form-textarea');
+            }
+            
+            let filledCount = 0;
+            fieldsToCheck.forEach(field => {
+                if (field.value.trim() !== '') {
+                    field.classList.add('filled');
+                    filledCount++;
+                } else {
+                    field.classList.remove('filled');
+                }
+            });
+            
+            // Update progress based on completion percentage
+            let progressPercentage = Math.min(100, 50 + (filledCount / fieldsToCheck.length) * 50);
+            document.querySelector('.progress-bar').style.width = progressPercentage + '%';
+        }
 
         document.querySelector('form').addEventListener('submit', function(e) {
             e.preventDefault();
