@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hedvig+Letters+Serif:opsz@12..24&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Terms and Conditions - UniConnect</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #FFFBEE;
+            background: rgb(255,251,238);
+            background: linear-gradient(180deg, rgba(255,251,238,1) 57%, rgba(228,224,212,1) 100%);
+            cursor: default;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: rgb(255,251,238);
+            background: linear-gradient(180deg, rgba(255,251,238,1) 65%, rgba(255,251,238,0) 100%);
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 10px;
+            padding-top: 120px;
+            width: 100%;
+            flex: 1;
+        }
+
+        .logo {
+            width: 200px;
+            height: auto;
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            z-index: 1001;
+        }
+
+        .nav-buttons {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            display: flex;
+            gap: 20px;
+            z-index: 1001;
+        }
+
+        .nav-button {
+            font-family: "Hedvig Letters Serif", serif;
+            background: none;
+            border: none;
+            color: #C41E3A;
+            font-size: 22px;
+            padding: 5px 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .nav-button:hover {
+            color: #a01830;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px 0;
+            background: transparent;
+            margin-top: auto;
+            text-align: center;
+            width: 100%;
+        }
+
+        .footer-link {
+            font-family: "Hedvig Letters Serif", serif;
+            color: #666;
+            font-size: 14px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            padding: 5px 10px;
+            display: inline-block;
+        }
+
+        .footer-link:hover {
+            color: #C41E3A;
+        }
+
+        .terms-title {
+            font-family: "Hedvig Letters Serif", serif;
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .terms-content {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            font-family: "Hedvig Letters Serif", serif;
+            color: #C41E3A;
+            font-size: 20px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .terms-text {
+            font-size: 15px;
+            color: #444;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .terms-list {
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .terms-list li {
+            margin-bottom: 10px;
+            font-size: 15px;
+            color: #444;
+            line-height: 1.6;
+        }
+
+        .last-updated {
+            font-size: 14px;
+            color: #888;
+            text-align: center;
+            margin-top: 30px;
+            font-style: italic;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+                padding-top: 100px;
+            }
+            
+            .logo {
+                width: 150px;
+                top: 20px;
+                left: 20px;
+            }
+            
+            .nav-buttons {
+                top: 25px;
+                right: 20px;
+                gap: 10px;
+            }
+            
+            .nav-button {
+                font-size: 16px;
+                padding: 4px 8px;
+            }
+            
+            .terms-title {
+                font-size: 26px;
+            }
+            
+            .terms-content {
+                padding: 20px;
+            }
+            
+            .section-title {
+                font-size: 18px;
+            }
+            
+            .footer {
+                flex-direction: column;
+                gap: 10px;
+                padding: 15px 0;
+            }
+            
+            .footer-link {
+                padding: 8px 15px;
+                font-size: 16px;
+            }
+        }
+        
+        /* Small phone screens */
+        @media (max-width: 480px) {
+            .container {
+                padding-top: 150px;
+            }
+            
+            .logo {
+                width: 120px;
+                top: 15px;
+                left: 15px;
+            }
+            
+            .nav-buttons {
+                top: 15px;
+                right: 15px;
+                flex-direction: column;
+                align-items: flex-end;
+                gap: 5px;
+            }
+            
+            .nav-button {
+                font-size: 14px;
+                padding: 4px 8px;
+                margin-bottom: 2px;
+            }
+            
+            .terms-title {
+                font-size: 22px;
+            }
+            
+            .section-title {
+                font-size: 16px;
+            }
+            
+            .terms-text, .terms-list li {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="header"></div>
+        <div class="container">
+            <a href="Landing_Page.html">
+                <img src="uniconnect-logo.svg" alt="UniConnect" class="logo">
+            </a>
+            <div class="nav-buttons">
+                <button class="nav-button" onclick="window.location.href='How_It_Works.html'">How it works</button>
+                <button class="nav-button" onclick="window.location.href='Landing_Page.html#contact'">Contact</button>
+            </div>
+            
+            <h1 class="terms-title">Terms and Conditions</h1>
+            
+            <div class="terms-content">
+                <p class="terms-text">
+                    Welcome to UniConnect. By accessing or using our website, services, or products, you agree to be bound by these Terms and Conditions. Please read them carefully.
+                </p>
+                
+                <h2 class="section-title">1. Acceptance of Terms</h2>
+                <p class="terms-text">
+                    By accessing or using UniConnect's platform, website, applications, or services (collectively, the "Services"), you agree to be bound by these Terms and Conditions ("Terms"). If you do not agree to these Terms, please do not use our Services.
+                </p>
+                
+                <h2 class="section-title">2. Description of Services</h2>
+                <p class="terms-text">
+                    UniConnect provides a platform connecting prospective university students with current university students for consultation services. These consultations may cover topics such as university life, admissions processes, course experiences, and related academic guidance.
+                </p>
+                
+                <h2 class="section-title">3. User Registration and Accounts</h2>
+                <p class="terms-text">
+                    To access certain features of our Services, you may need to register and create an account. You agree to:
+                </p>
+                <ul class="terms-list">
+                    <li>Provide accurate, current, and complete information during registration</li>
+                    <li>Maintain and promptly update your account information</li>
+                    <li>Keep your account credentials secure and confidential</li>
+                    <li>Be responsible for all activities that occur under your account</li>
+                    <li>Notify us immediately of any unauthorized access to your account</li>
+                </ul>
+                
+                <h2 class="section-title">4. User Conduct</h2>
+                <p class="terms-text">
+                    When using our Services, you agree not to:
+                </p>
+                <ul class="terms-list">
+                    <li>Violate any applicable laws or regulations</li>
+                    <li>Impersonate any person or entity</li>
+                    <li>Harass, bully, or harm other users</li>
+                    <li>Distribute spam, malware, or other malicious content</li>
+                    <li>Attempt to gain unauthorized access to our systems or other users' accounts</li>
+                    <li>Use our Services for any illegal or unethical purposes</li>
+                    <li>Share false or misleading information during consultations</li>
+                </ul>
+                
+                <h2 class="section-title">5. Intellectual Property</h2>
+                <p class="terms-text">
+                    All content, features, and functionality of our Services, including but not limited to text, graphics, logos, icons, images, audio clips, and software, are owned by UniConnect and are protected by international copyright, trademark, and other intellectual property laws.
+                </p>
+                
+                <h2 class="section-title">6. Consultations and Payments</h2>
+                <p class="terms-text">
+                    For university students providing consultations through our platform:
+                </p>
+                <ul class="terms-list">
+                    <li>You agree to provide honest, accurate, and helpful information based on your personal experiences</li>
+                    <li>You acknowledge that payment rates and terms are as specified on our platform</li>
+                    <li>You understand that payment may be withheld if consultations are canceled, incomplete, or violate our guidelines</li>
+                </ul>
+                <p class="terms-text">
+                    For prospective students seeking consultations:
+                </p>
+                <ul class="terms-list">
+                    <li>You agree to pay the fees specified for consultation services</li>
+                    <li>You understand that consultations are based on personal experiences and opinions of current university students</li>
+                    <li>You acknowledge that consultation outcomes and university admissions decisions remain your responsibility</li>
+                </ul>
+                
+                <h2 class="section-title">7. Limitation of Liability</h2>
+                <p class="terms-text">
+                    To the maximum extent permitted by law, UniConnect shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of profits, data, or goodwill, service interruption, or system failure, resulting from your use of our Services or any content obtained through our Services.
+                </p>
+                
+                <h2 class="section-title">8. Disclaimers</h2>
+                <p class="terms-text">
+                    Our Services are provided "as is" and "as available" without any warranties of any kind, either express or implied. Consultations reflect the personal experiences and opinions of individual students and should not be considered as official advice from universities.
+                </p>
+                
+                <h2 class="section-title">9. Third-Party Links and Services</h2>
+                <p class="terms-text">
+                    Our Services may contain links to third-party websites or services that are not owned or controlled by UniConnect. We have no control over and assume no responsibility for the content, privacy policies, or practices of any third-party websites or services.
+                </p>
+                
+                <h2 class="section-title">10. Termination</h2>
+                <p class="terms-text">
+                    We may terminate or suspend your access to our Services immediately, without prior notice or liability, for any reason, including breach of these Terms. Upon termination, your right to use the Services will cease immediately.
+                </p>
+                
+                <h2 class="section-title">11. Changes to Terms</h2>
+                <p class="terms-text">
+                    We reserve the right to modify or replace these Terms at any time. If we make material changes, we will provide notice through our Services or by other means. Your continued use of our Services after any changes indicates your acceptance of the modified Terms.
+                </p>
+                
+                <h2 class="section-title">12. Governing Law</h2>
+                <p class="terms-text">
+                    These Terms shall be governed by and construed in accordance with the laws of the United Kingdom, without regard to its conflict of law provisions.
+                </p>
+                
+                <h2 class="section-title">13. Contact Information</h2>
+                <p class="terms-text">
+                    If you have any questions about these Terms, please contact us at hello@uniconnect.global.
+                </p>
+                
+                <p class="last-updated">Last Updated: May 14, 2024</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <a href="privacy_policy.html" class="footer-link">Privacy Policy</a>
+            <a href="terms_conditions.html" class="footer-link">Terms & Conditions</a>
+        </div>
+    </div>
+</body>
+</html> 
