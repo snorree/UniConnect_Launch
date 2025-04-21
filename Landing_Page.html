@@ -177,7 +177,7 @@
         .header-text {
             display: block;
             font-size: 36px;
-            color: #333;
+            color: #C41E3A;
             margin-bottom: 12px;
             font-weight: normal;
             line-height: 1.3;
@@ -334,23 +334,28 @@
         
         /* Progress indicator for form */
         .form-progress {
-            display: flex;
-            justify-content: center;
-            margin: 30px 0 40px;
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin: 40px auto 50px;
+            height: 6px;
+            background-color: rgba(196, 30, 58, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: #C41E3A;
+            transition: width 0.5s ease;
+            width: 0;
         }
         
         .progress-step {
-            width: 12px;
-            height: 12px;
-            background-color: #ddd;
-            border-radius: 50%;
-            margin: 0 8px;
-            transition: all 0.3s ease;
-        }
-        
-        .progress-step.active {
-            background-color: #C41E3A;
-            transform: scale(1.2);
+            display: none;
         }
 
         .hedvig-letters-serif {
@@ -728,7 +733,8 @@
                         <h2 class="registration-title hedvig-letters-serif">Register your interest!</h2>
                         <form action="https://formspree.io/f/{{FORMSPREE_ENDPOINT}}" method="POST" id="contactForm">
                             <div class="form-progress">
-                                <div class="progress-step active" data-step="1"></div>
+                                <div class="progress-bar"></div>
+                                <div class="progress-step" data-step="1"></div>
                                 <div class="progress-step" data-step="2"></div>
                                 <div class="progress-step" data-step="3"></div>
                             </div>
@@ -1032,7 +1038,13 @@
         }
 
         // Call this function when the page loads
-        document.addEventListener('DOMContentLoaded', loadEnvVariables);
+        document.addEventListener('DOMContentLoaded', function() {
+            loadEnvVariables();
+            
+            // Initialize progress bar
+            const progressBar = document.querySelector('.progress-bar');
+            progressBar.style.width = '10%';
+        });
 
         document.querySelectorAll('input[name="student_type"]').forEach(radio => {
             radio.addEventListener('change', function() {
@@ -1040,16 +1052,9 @@
                 const universityFields = document.getElementById('universityFields');
                 const submitButton = document.querySelector('.submit-button');
                 
-                // Update progress indicator
-                document.querySelectorAll('.progress-step').forEach(step => {
-                    if (parseInt(step.getAttribute('data-step')) === 1) {
-                        step.classList.add('active');
-                    } else if (parseInt(step.getAttribute('data-step')) === 2) {
-                        step.classList.add('active');
-                    } else {
-                        step.classList.remove('active');
-                    }
-                });
+                // Update progress bar
+                const progressBar = document.querySelector('.progress-bar');
+                progressBar.style.width = '50%';
                 
                 // First hide both forms
                 prospectiveFields.style.display = 'none';
@@ -1080,13 +1085,26 @@
                 if (this.value.trim() !== '') {
                     this.classList.add('filled');
                     
-                    // When enough fields are filled, activate step 3
-                    let requiredFields = document.querySelectorAll('.form-input[required], .form-textarea[required], .form-select[required]');
-                    let filledFields = document.querySelectorAll('.form-input.filled[required], .form-textarea.filled[required], .form-select.filled[required]');
+                    // Count filled fields
+                    let fieldsToCheck;
+                    let studentType = document.querySelector('input[name="student_type"]:checked').value;
                     
-                    if (filledFields.length > 0) {
-                        document.querySelector('.progress-step[data-step="3"]').classList.add('active');
+                    if (studentType === 'prospective') {
+                        fieldsToCheck = document.querySelectorAll('#prospectiveFields .form-input, #prospectiveFields .form-select');
+                    } else {
+                        fieldsToCheck = document.querySelectorAll('#universityFields .form-input, #universityFields .form-textarea');
                     }
+                    
+                    let filledCount = 0;
+                    fieldsToCheck.forEach(field => {
+                        if (field.value.trim() !== '') {
+                            filledCount++;
+                        }
+                    });
+                    
+                    // Update progress based on completion percentage
+                    let progressPercentage = Math.min(100, 50 + (filledCount / fieldsToCheck.length) * 50);
+                    document.querySelector('.progress-bar').style.width = progressPercentage + '%';
                 } else {
                     this.classList.remove('filled');
                 }
