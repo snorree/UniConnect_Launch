@@ -994,7 +994,7 @@
 
                     <div class="registration-card">
                         <h2 class="registration-title hedvig-letters-serif">Register your interest!</h2>
-                        <form action="https://formspree.io/f/{{FORMSPREE_ENDPOINT}}" method="POST" id="contactForm">
+                        <form action="https://script.google.com/macros/s/AKfycbxMxiwQLnbEFa4-GF5OyNp2MrmJFePfBKza_NIghgxlq8yHnt6IFYHnWvs3Wp1YYQLe/exec" method="POST" id="contactForm">
                             <div class="form-progress">
                                 <div class="progress-bar"></div>
                                 <div class="progress-step" data-step="1"></div>
@@ -1098,7 +1098,32 @@
 
                                 <div class="form-group">
                                     <label for="discussTopics" class="form-label hedvig-letters-serif">What aspects of university life would you be comfortable discussing?</label>
-                                    <textarea id="discussTopics" name="discussion_topics" class="form-textarea hedvig-letters-serif" placeholder="Tell us what you'd be happy to share with prospective students..."></textarea>
+                                    <div class="checkbox-group">
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="uniGeneralConsultation" name="services[]" value="General Consultation">
+                                            <label for="uniGeneralConsultation" class="hedvig-letters-serif">General Consultation</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="uniInterviewHelp" name="services[]" value="Interview Help">
+                                            <label for="uniInterviewHelp" class="hedvig-letters-serif">Interview Help</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="uniPersonalStatement" name="services[]" value="Personal Statement Guidance">
+                                            <label for="uniPersonalStatement" class="hedvig-letters-serif">Personal Statement Guidance</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="uniEntranceExam" name="services[]" value="Entrance Exam Tips">
+                                            <label for="uniEntranceExam" class="hedvig-letters-serif">Entrance Exam Tips</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="uniLifeAtUni" name="services[]" value="Life at University">
+                                            <label for="uniLifeAtUni" class="hedvig-letters-serif">Life at University</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="uniAcademicsExp" name="services[]" value="Academics Experience">
+                                            <label for="uniAcademicsExp" class="hedvig-letters-serif">Academics Experience</label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -1413,52 +1438,58 @@
                 return;
             }
             
+            // Prepare form data
+            const formData = {
+                student_type: studentType.value,
+                name: studentType.value === 'university' ? 
+                    document.getElementById('universityName').value : 
+                    document.getElementById('prospectiveName').value,
+                email: studentType.value === 'university' ? 
+                    document.getElementById('uniEmail').value : 
+                    document.getElementById('email').value
+            };
+
+            // Add type-specific fields
             if (studentType.value === 'university') {
-                const uniEmail = document.getElementById('uniEmail').value.toLowerCase();
-                const uniName = document.getElementById('uniName').value;
-                const course = document.getElementById('course').value;
-                const discussTopics = document.getElementById('discussTopics').value;
-                const name = document.getElementById('universityName').value;
-                
-                // Check if email ends with .ac.uk or .edu
-                if (!uniEmail.endsWith('.ac.uk') && !uniEmail.endsWith('.edu')) {
-                    alert('Please use a valid university email address ending in .ac.uk or .edu');
-                    return;
-                }
-
-                if (!uniName || !course || !discussTopics || !name) {
-                    alert('Please fill in all required fields.');
-                    return;
-                }
-            } else if (studentType.value === 'prospective') {
-                const email = document.getElementById('email').value;
-                const year = document.getElementById('year').value;
-                const universities = document.getElementById('universities').value;
-                const name = document.getElementById('prospectiveName').value;
-
-                if (!email || !year || !universities || !name) {
-                    alert('Please fill in all required fields.');
-                    return;
-                }
+                formData.university_name = document.getElementById('uniName').value;
+                formData.course = document.getElementById('course').value;
+                // Get selected services
+                const services = [];
+                document.querySelectorAll('#universityFields input[type="checkbox"]:checked').forEach(checkbox => {
+                    services.push(checkbox.value);
+                });
+                formData.services = services;
+            } else {
+                formData.year = document.getElementById('year').value;
+                formData.universities = document.getElementById('universities').value;
+                formData.additional_interests = document.getElementById('additionalInterests').value;
+                // Get selected services
+                const services = [];
+                document.querySelectorAll('#prospectiveFields input[type="checkbox"]:checked').forEach(checkbox => {
+                    services.push(checkbox.value);
+                });
+                formData.services = services;
             }
 
-            // If validation passes, submit the form
-            fetch(this.action, {
+            // Submit to Google Apps Script
+            fetch('https://script.google.com/macros/s/AKfycbxMxiwQLnbEFa4-GF5OyNp2MrmJFePfBKza_NIghgxlq8yHnt6IFYHnWvs3Wp1YYQLe/exec', {
                 method: 'POST',
-                body: new FormData(this),
+                body: JSON.stringify(formData),
                 headers: {
-                    'Accept': 'application/json'
+                    'Content-Type': 'application/json'
                 }
             })
-            .then(response => {
-                if (response.ok) {
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
                     window.location.href = 'success.html';
                 } else {
-                    throw new Error('Form submission failed');
+                    throw new Error(data.message);
                 }
             })
             .catch(error => {
                 alert('Oops! There was a problem submitting your form. Please try again.');
+                console.error('Error:', error);
             });
         });
     </script>
