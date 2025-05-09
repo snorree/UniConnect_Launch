@@ -1289,8 +1289,8 @@
         </div>
 
         <div class="footer">
-            <a href="privacy_policy.html" class="footer-link">Privacy Policy</a>
-            <a href="terms_conditions.html" class="footer-link">Terms & Conditions</a>
+            <a href="privacy_policy.html" class="footer-link" target="_blank">Privacy Policy</a>
+            <a href="terms_conditions.html" class="footer-link" target="_blank">Terms & Conditions</a>
         </div>
     </div>
 
@@ -1486,13 +1486,15 @@
             submitButton.textContent = 'Submitting...';
 
             // Submit to Google Apps Script
-            fetch('https://script.google.com/macros/s/AKfycbwk4-yCYecmg2vyCzzu1zUk_fOXBUY2od99-4_moKIgkUi1MC0SHod9DqbW35FMkvMx/exec', {
+            fetch('https://script.google.com/macros/s/AKfycbywyQMyN8vts9asr70DezCAMuBo_jkuuVcxHuAp99dnLi-ot8IyP2_M0KXrx5rICgBS/exec', {
                 method: 'POST',
                 body: JSON.stringify(formData),
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
                 },
-                mode: 'no-cors'
+                mode: 'no-cors',
+                credentials: 'omit'
             })
             .then(() => {
                 // Since we're using no-cors, we can't read the response
