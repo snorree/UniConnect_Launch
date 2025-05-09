@@ -994,7 +994,7 @@
 
                     <div class="registration-card">
                         <h2 class="registration-title hedvig-letters-serif">Register your interest!</h2>
-                        <form action="https://script.google.com/macros/s/AKfycbxMxiwQLnbEFa4-GF5OyNp2MrmJFePfBKza_NIghgxlq8yHnt6IFYHnWvs3Wp1YYQLe/exec" method="POST" id="contactForm">
+                        <form id="contactForm">
                             <div class="form-progress">
                                 <div class="progress-bar"></div>
                                 <div class="progress-step" data-step="1"></div>
@@ -1438,6 +1438,15 @@
                 return;
             }
             
+            // Validate university email for university students
+            if (studentType.value === 'university') {
+                const uniEmail = document.getElementById('uniEmail').value;
+                if (!uniEmail.endsWith('.ac.uk') && !uniEmail.endsWith('.edu')) {
+                    alert('Please use a valid university email address ending in .ac.uk or .edu');
+                    return;
+                }
+            }
+            
             // Prepare form data
             const formData = {
                 student_type: studentType.value,
@@ -1471,25 +1480,30 @@
                 formData.services = services;
             }
 
+            // Show loading state
+            const submitButton = document.querySelector('.submit-button');
+            submitButton.disabled = true;
+            submitButton.textContent = 'Submitting...';
+
             // Submit to Google Apps Script
-            fetch('https://script.google.com/macros/s/AKfycbxMxiwQLnbEFa4-GF5OyNp2MrmJFePfBKza_NIghgxlq8yHnt6IFYHnWvs3Wp1YYQLe/exec', {
+            fetch('https://script.google.com/macros/s/AKfycbwk4-yCYecmg2vyCzzu1zUk_fOXBUY2od99-4_moKIgkUi1MC0SHod9DqbW35FMkvMx/exec', {
                 method: 'POST',
                 body: JSON.stringify(formData),
                 headers: {
                     'Content-Type': 'application/json'
-                }
+                },
+                mode: 'no-cors'
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    window.location.href = 'success.html';
-                } else {
-                    throw new Error(data.message);
-                }
+            .then(() => {
+                // Since we're using no-cors, we can't read the response
+                // But if we get here, the request was sent successfully
+                window.location.href = 'success.html';
             })
             .catch(error => {
-                alert('Oops! There was a problem submitting your form. Please try again.');
                 console.error('Error:', error);
+                alert('Oops! There was a problem submitting your form. Please try again or contact us directly.');
+                submitButton.disabled = false;
+                submitButton.textContent = 'Submit';
             });
         });
     </script>
